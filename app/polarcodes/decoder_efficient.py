@@ -16,7 +16,7 @@
 """
 import numpy as np
 
-from polarcodes.matlab_sim import div
+from app.polarcodes.matlab_sim import div
 
 
 def decode_output_efficient(received_output, frozen_bits, A, A_c):

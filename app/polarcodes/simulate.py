@@ -5,12 +5,11 @@ Migrated the code based on MATLAB code
 # The amount of lost data (Parameter of the channnel)
 import numpy as np
 
-from polarcodes.bec_simulation import simulate_bec_channel
-from polarcodes.bhattacharyya import compute_bhattacharyya_BEC
-from polarcodes.channel_finder import find_good_channels
-from polarcodes.decoder_efficient import decode_output_efficient
-from polarcodes.decoder_naiv import decode_output_naive
-from polarcodes.encoder import encode_input
+from app.polarcodes.bec_simulation import simulate_bec_channel
+from app.polarcodes.bhattacharyya import compute_bhattacharyya_BEC
+from app.polarcodes.channel_finder import find_good_channels
+from app.polarcodes.decoder_efficient import decode_output_efficient
+from app.polarcodes.encoder import encode_input
 
 EPSILON = 0.2
 

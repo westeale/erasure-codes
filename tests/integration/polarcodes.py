@@ -1,32 +1,22 @@
 import unittest
 
-import numpy as np
-
-from app.polarcodes.bec_simulation import simulate_bec_channel, erase_bits
-from app.polarcodes.bhattacharyya import compute_bhattacharyya_BEC
-from app.polarcodes.channel_finder import find_good_channels
-from app.polarcodes.decoder_efficient import decode_output_efficient
-from app.polarcodes.decoder_naiv import decode_output_naive
-from app.polarcodes.encoder import encode_input
+from app.polarcodes.polarcodes import Polarcodes
 
 
 class TestPolarCodes(unittest.TestCase):
     def test_run_integration_test(self):
-        # self.assertEqual(True, False)
 
         # Check for correct configuration
-        self._epsilon = 0.5
-        self._blocklength = 8
+        self._coder = Polarcodes(0.5)
 
-        self._rate = 0.5
-        self._k = int(self._rate * self._blocklength)
-        self._z = compute_bhattacharyya_BEC(self._epsilon, self._blocklength)
+        self._z = self._coder.z_parameters
 
         self.assertAlmostEqual(0.99609375, self._z[0], 4)
         self.assertAlmostEqual(0.87890625, self._z[1], 4)
         self.assertAlmostEqual(0.00390625, self._z[7], 4)
 
-        self._A, self._A_c = find_good_channels(self._z, self._k, self._blocklength)
+        self._A = self._coder.a
+        self._blocklength = self._coder.blocklength
 
         self.assertTrue(self._A[3])
         self.assertTrue(self._A[5])
@@ -34,8 +24,6 @@ class TestPolarCodes(unittest.TestCase):
 
         self.assertFalse(self._A[0])
         self.assertFalse(self._A[1])
-
-        frozen_bits = np.zeros(self._blocklength - self._k)
 
         messages = [[1, 0, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 1, 1]]
         erasure_0 = [False] * self._blocklength
@@ -57,24 +45,17 @@ class TestPolarCodes(unittest.TestCase):
         erasures = [erasure_0, erasure_1, erasure_2, erasure_3, erasure_4]
 
         for message in messages:
-            encoded_input = encode_input(message, frozen_bits, self._A, self._A_c, self._blocklength)
+            encoded_input = self._coder.encode_input(message)
 
             for erasure in erasures:
-                received_output = erase_bits(encoded_input, erasure)
+                received_output = self._coder.erase_bits(encoded_input, erasure)
 
-                decoded_output_1 = decode_output_naive(received_output, frozen_bits, self._A, self._A_c)
-                decoded_output_2 = decode_output_efficient(received_output, frozen_bits, self._A, self._A_c)
+                decoded_output_1 = self._coder.decode_output(received_output, efficient=False)
+                decoded_output_2 = self._coder.decode_output(received_output, efficient=True)
 
 
                 self.assertCountEqual(message, decoded_output_1)
                 self.assertCountEqual(message, decoded_output_2)
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

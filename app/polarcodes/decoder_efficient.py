@@ -8,7 +8,7 @@
 import numpy as np
 
 from app.polarcodes.exceptions.exceptions import CouldNotDecodeError, InvalidCharacterInMessage, UnexpectedLikeliHood
-from app.polarcodes.matlab_sim import div
+from app.polarcodes.helper import div
 
 
 def decode_output_efficient(received_output, frozen_bits, a):
@@ -83,7 +83,6 @@ def compute_lr(y, u, n, j, lr_s, shift_j, level):
     level = int(level)
     j = int(j)
 
-    # TODO rearange those two indices: (-1)
     j_abs = shift_j + j
 
     # If the desired likelihood ratio already exists in the table, return
@@ -143,9 +142,6 @@ def compute_lr(y, u, n, j, lr_s, shift_j, level):
     return lr_s, lr_s[j_abs - 1][level - 1]
 
 
-"""
-Decide according to the lr
-"""
 def decide(current_lr):
     """
     Decide according to the lr

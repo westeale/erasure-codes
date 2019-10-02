@@ -24,11 +24,9 @@ def simulate_bec_channel(encoded_input, epsilon, true_random=False):
     else:
         positions = _get_percentage_erasures(length, epsilon)
 
-    for i in range(length):
-        if positions[i]:
-            encoded_input[i] = np.nan
+    erased_input = erase_bits(encoded_input, positions)
 
-    return encoded_input
+    return erased_input
 
 
 def erase_bits(encoded_input, bits_to_erase):
@@ -59,7 +57,7 @@ def _get_random_erasures(length, epsilon):
 
 
 def _get_percentage_erasures(length, epsilon):
-    n_bits_to_erase = int(length * epsilon)
+    n_bits_to_erase = round(length * epsilon)
     erasure_positions = [True] * n_bits_to_erase + [False] * (length - n_bits_to_erase)
     shuffle(erasure_positions)
     return erasure_positions

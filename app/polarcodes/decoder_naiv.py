@@ -6,7 +6,7 @@
 import numpy as np
 
 from app.polarcodes.exceptions.exceptions import CouldNotDecodeError, InvalidCharacterInMessage, UnexpectedLikeliHood
-from app.polarcodes.matlab_sim import div
+from app.polarcodes.helper import div
 
 
 def decode_output_naive(received_output, frozen_bits, a):
@@ -123,7 +123,7 @@ def compute_lr(y, u, n, j):
 
         L1 = compute_lr(y[:n_index], (u_odd + u_even) % 2, n_index, j/2)
 
-        L2 = compute_lr(y[n_index:n], u_even, n_index, j / 2)
+        L2 = compute_lr(y[n_index:n], u_even, n_index, j/2)
 
         if u[j-2] == 0:
             l = L2 * L1

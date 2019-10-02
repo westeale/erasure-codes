@@ -8,14 +8,14 @@ from app.polarcodes.polarcodes import Polarcodes
 
 BLOCKLENGTH = 8
 
-MESSAGE = [0, 1, 1, 1]
+MESSAGE = [0, 1, 1]
 
-K_INFORMATION_BITS = BLOCKLENGTH - len(MESSAGE)
+K_INFORMATION_BITS = len(MESSAGE)
 
 EPSILON = 0.25
 
 # O(N log N) decoder?
-EFFICIENT_DECODER = False
+EFFICIENT_DECODER = True
 
 # Using % amount of random erased bits
 TRUE_RANDOM = False
@@ -43,7 +43,6 @@ format_printing("Encoded Message: {}".format(ENCODED_MESSAGE))
 # ------------------- Simulating BEC channel ----------------------------------------
 ERASED_MESSAGE = polarcoder.simulate_bec_channel(ENCODED_MESSAGE, TRUE_RANDOM)
 format_printing("Received message: {}".format(ERASED_MESSAGE))
-
 
 # ------------------- Decoding message ----------------------------------------------
 DECODED_MESSAGE = polarcoder.decode_output(ERASED_MESSAGE, EFFICIENT_DECODER)

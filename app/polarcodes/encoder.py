@@ -29,6 +29,7 @@ def encode_input(input, frozen_bits, a, blocklength):
     # Recursively combine the bits using polar transformation
     encoded_input = combine_bits(bits_to_combine, blocklength)
 
+
     return encoded_input
 
 
@@ -47,7 +48,7 @@ def combine_bits(u, blocklength):
     u_odd = u[::2]
     u_even = u[1::2]
 
-    s_odd = (u_odd + u_even) % 2
+    s_odd = np.logical_xor(u_odd, u_even)
     s_even = u_even
 
     # Reverse shuffle operation R_N

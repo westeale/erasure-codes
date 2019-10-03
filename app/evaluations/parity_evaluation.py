@@ -7,18 +7,18 @@ from app.polarcodes.exceptions.exceptions import CouldNotDecodeError
 from app.polarcodes.polarcodes import Polarcodes
 import matplotlib.pyplot as plt
 
-BLOCKLENGTH = 128 # Has to be to the power of 2
+BLOCKLENGTH = 16384 # Has to be to the power of 2
 
 # K information bitrate
-MAX_K_RATE = 0.8
+MAX_K_RATE = 0.5
 
 K_START = 0.2
 
 K_STEPS = 0.1
 
-ITERATIONS_PER_K = 10
+ITERATIONS_PER_K = 100
 
-EPSILON = 0.6
+EPSILON = 0.5
 
 SIMULATING_TRUE_BEC = False
 
@@ -41,13 +41,13 @@ n_errors = 0
 k = K_START
 
 while k <= MAX_K_RATE:
+
     k_information_bits = round(k * blocklength)
     polarcoder = Polarcodes(EPSILON, blocklength, k_information_bits)
 
     iteration_errors = 0
     added_encoding_time = 0
     added_decoding_time = 0
-
     for i in range(ITERATIONS_PER_K):
         n_iterations += 1
 
@@ -75,14 +75,14 @@ while k <= MAX_K_RATE:
         end_decode = time.time()
         added_decoding_time += (end_decode - start_decode)
 
-        encoding_times.append(added_encoding_time / ITERATIONS_PER_K)
-        decoding_times.append(added_decoding_time / (ITERATIONS_PER_K))
+    encoding_times.append(added_encoding_time / ITERATIONS_PER_K)
+    decoding_times.append(added_decoding_time / (ITERATIONS_PER_K))
 
-        count_errors.append(iteration_errors / ITERATIONS_PER_K)
+    count_errors.append(iteration_errors / ITERATIONS_PER_K)
 
-        ks.append(k)
+    ks.append(k)
 
-        k += K_STEPS
+    k += K_STEPS
 
 # ------------------- Plotting results: ---------------------------------------------
 print("Amount of errors: {}".format(n_errors))
@@ -93,7 +93,7 @@ plt.figure(1)
 plt.scatter(ks, count_errors)
 plt.plot(ks, count_errors)
 plt.ylabel('Error rate')
-plt.xlabel('Epsilon')
+plt.xlabel('Information bitrate')
 plt.title('Average error rate')
 
 
@@ -102,7 +102,7 @@ plt.figure(2)
 plt.scatter(ks, encoding_times)
 plt.plot(ks, encoding_times)
 plt.ylabel('Average time for encoding')
-plt.xlabel('Epsilon')
+plt.xlabel('Information bitrate')
 plt.title('Average time for encoding')
 
 
@@ -111,7 +111,7 @@ plt.figure(3)
 plt.scatter(ks, decoding_times)
 plt.plot(ks, decoding_times)
 plt.ylabel('Average time for decoding')
-plt.xlabel('Epsilon')
+plt.xlabel('Information bitrate')
 plt.title('Average time for decoding')
 plt.show()
 

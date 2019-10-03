@@ -12,11 +12,11 @@ import matplotlib.pyplot as plt
 # ------------------- Parameters: ---------------------------------------------------
 
 
-BLOCKLENGTH = 128 # Has to be to the power of 2
+BLOCKLENGTH = 8192 # Has to be to the power of 2
 
-K_INFORMATION_BITS_RATE = 0.5
+K_INFORMATION_BITS_RATE = 0.3
 
-ITERATIONS_PER_EPSILON = 10
+ITERATIONS_PER_EPSILON = 100
 
 SIMULATING_TRUE_BEC = False
 

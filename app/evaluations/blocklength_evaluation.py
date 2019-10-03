@@ -12,19 +12,19 @@ from app.polarcodes.polarcodes import Polarcodes
 # ------------------- Parameters: ---------------------------------------------------
 
 
-MAXIMUM_BLOCKLENGTH = 1024
+MAXIMUM_BLOCKLENGTH = 32768
 MINIMUM_BLOCKLENGTH = 4 # Has to be to the power of 2
 
-K_INFORMATION_BITS_RATE = 0.5
+K_INFORMATION_BITS_RATE = 0.25
 
-ITERATIONS_PER_BLOCKLENGTH = 10
+ITERATIONS_PER_BLOCKLENGTH = 100
 
 SIMULATING_TRUE_BEC = False
 
 # O(N log N) decoder?
 EFFICIENT_DECODER = True
 
-EPSILON = 0.25
+EPSILON = 0.5
 
 
 # ------------------- Running evaluation: -------------------------------------------

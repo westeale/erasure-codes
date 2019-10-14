@@ -7,18 +7,18 @@ from app.polarcodes.exceptions.exceptions import CouldNotDecodeError
 from app.polarcodes.polarcodes import Polarcodes
 import matplotlib.pyplot as plt
 
-BLOCKLENGTH = 16384 # Has to be to the power of 2
+BLOCKLENGTH = 256 # Has to be to the power of 2
 
 # K information bitrate
-MAX_K_RATE = 0.5
+MAX_K_RATE = 0.8
 
 K_START = 0.2
 
-K_STEPS = 0.1
+K_STEPS = 0.05
 
 ITERATIONS_PER_K = 100
 
-EPSILON = 0.5
+EPSILON = 0.6
 
 SIMULATING_TRUE_BEC = False
 

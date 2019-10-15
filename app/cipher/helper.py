@@ -2,6 +2,7 @@
 Helper functions for encryption
 """
 
+
 def bits_to_bytes(bits):
     s = ''.join(str(e) for e in bits)
     return int(s, 2).to_bytes(len(s) // 8, byteorder='big')

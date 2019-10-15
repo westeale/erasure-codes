@@ -1,6 +1,5 @@
 """
 Class to use different block ciphers
-
 """
 import numpy as np
 
@@ -16,6 +15,12 @@ class BlockCipher:
     SPECK = "SPECK"
 
     def __init__(self, cipher=DES, key_size=64, blocklength=64):
+        """
+        Checking configurations
+        :param cipher: Block cipher to use
+        :param key_size: int
+        :param blocklength: int
+        """
         if cipher == BlockCipher.DES:
             self._cipher = DES(key_size, blocklength)
 
@@ -32,35 +37,42 @@ class BlockCipher:
         self._blocklength = blocklength
         self._key = None
 
-
     def set_secret_key(self, key):
+        """
+        Setting secret key for block encryption and decryption
+        :param key: numpy bit array
+        """
         if len(key) != self._key_size:
             raise InvalidKeyLength("Key size ({}) should match the configurations ({})!".format(len(key), self._key_size))
 
         self._key = key
         self._cipher.set_key(key)
 
-
     def encrypt_message(self, message):
+        """
+        Block encryption
+        :param message: numpy bit array
+        :return: numpy bit array of encrypted message
+        """
         if self._key is None:
             raise NoKeySet("No key has been set")
-
 
         if len(message) != self._blocklength:
             raise InvalidCipherBlockLength("Blocklength should be {}".format(self._blocklength))
 
         return self._cipher.encrypt(message)
 
-
     def decrypt_message(self, message):
+        """
+        Decrypting block
+        :param message: numpy bit array of encrypted message
+        :return: numpy bit array of decrypted message
+        """
         return self._cipher.decrypt(message)
 
 
-
-
-
 if __name__ == '__main__':
-    # DES
+    # DES cipher
     example = BlockCipher(BlockCipher.DES, 64, 64)
     des_key = np.random.uniform(size=64)
     des_key = list(map(lambda x: int(round(x)), des_key))

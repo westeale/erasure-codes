@@ -22,7 +22,6 @@ class Speck:
         self._key = key_size
         self._blocklength = blocklength
 
-
     def set_key(self, key):
         hex_key = bits_to_hex(key)
 

@@ -18,7 +18,6 @@ class DES:
 
         self._key = None
 
-
     def set_key(self, key):
         string_key = bits_to_bytes(key)
 
@@ -27,14 +26,11 @@ class DES:
         if not self._key.is_single():
             raise WrongConfiguration("3DES has been configured")
 
-
-
     def encrypt(self, message):
         byte_message = bits_to_bytes(message)
 
         encrypted_bytes = self._key.encrypt(byte_message)
         return bytes_to_bits(encrypted_bytes)
-
 
     def decrypt(self, message):
         byte_message = bits_to_bytes(message)

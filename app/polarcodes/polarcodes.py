@@ -60,7 +60,6 @@ class Polarcodes:
         else:
             return decode_output_naive(received_output, self._frozen_bits, self._a)
 
-
     def simulate_bec_channel(self, encoded_input, true_random=False):
         """
         Replaces random bits with NaN values
@@ -72,6 +71,16 @@ class Polarcodes:
         :return: Numpy array with erased bits
         """
         return bec_simulation.simulate_bec_channel(encoded_input, self._epsilon, true_random)
+
+    def erase_bits(self, encoded_input, bits_to_erase):
+        """
+        Erase bits according to boolean list
+        :param encoded_input: numpy array of bits
+        :param bits_to_erase: list of booleans for bits to get erased
+        :return: numpy array with NaN values
+        """
+        return bec_simulation.erase_bits(encoded_input, bits_to_erase)
+
 
     @property
     def z_parameters(self):

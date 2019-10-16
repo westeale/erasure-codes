@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 
 # ------------------- Parameters: ---------------------------------------------------
 
-BLOCKLENGTH = 8192 # Has to be to the power of 2
+BLOCKLENGTH = 128 # Has to be to the power of 2
 
-K_INFORMATION_BITS_RATE = 0.3
+K_INFORMATION_BITS_RATE = 0.5
 
 ITERATIONS_PER_EPSILON = 100
 

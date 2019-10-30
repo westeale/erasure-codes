@@ -45,6 +45,7 @@ class Polarcodes:
         :param message: bit message of length k_information bits
         :return: the encoded message
         """
+
         assert len(message) == self._k_information_bits, \
             'message should have {} information bits.'.format(self._k_information_bits)
 

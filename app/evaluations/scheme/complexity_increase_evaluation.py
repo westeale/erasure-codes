@@ -102,6 +102,7 @@ while blocklength <= END_BLOCKLENGTH:
         added_scheme_decode_time += (end_decode - start_decode)
 
     increase_encode = (added_scheme_encode_time / ITERATIONS) / (added_cipher_encode_time / ITERATIONS)
+
     increase_decode = (added_scheme_decode_time / ITERATIONS) / (added_cipher_decode_time / ITERATIONS)
 
     complexity_increase_encoding.append(increase_encode)

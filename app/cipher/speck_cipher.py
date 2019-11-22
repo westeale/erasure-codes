@@ -7,36 +7,44 @@ from speck import SpeckCipher
 from app.cipher.exceptions.exceptions import InvalidCipherBlockLength, InvalidKeyLength
 from app.cipher.helper import bits_to_hex, hex_to_bits
 
-VALID_PARAMS = {32: [64], 48: [72, 96], 64: [96, 128], 96: [96, 144], 128: [128, 192, 256]}
-
 
 class Speck:
     def __init__(self, key_size, blocklength):
-        if blocklength not in VALID_PARAMS:
-            raise InvalidCipherBlockLength("Only blocklengths of 32, 48, 64, 96, 128 are allowed in Simon cipher")
+        if key_size != 96:
+            raise InvalidKeyLength("Keylength of Speck must be 96 bits!")
 
-        if key_size not in VALID_PARAMS[blocklength]:
-            raise InvalidKeyLength("{} is not a valid keylength for the blocklength of {}".format(key_size, blocklength))
+        if blocklength % 64 != 0:
+            raise InvalidCipherBlockLength("Blocklength of Speck should be multiplier of 64")
 
         self._key = None
-        self._key = key_size
+        self._key_size = key_size
         self._blocklength = blocklength
 
     def set_key(self, key):
         hex_key = bits_to_hex(key)
 
-        self._key = SpeckCipher(hex_key)
+        self._key = SpeckCipher(hex_key, key_size=96, block_size=64)
 
     def encrypt(self, message):
-        hex_message = bits_to_hex(message)
+        split_message = [message[x:x+64] for x in range(0, len(message), 64)]
 
-        encrypted_hex = self._key.encrypt(hex_message)
+        encrypted_message = []
 
-        return hex_to_bits(encrypted_hex, self._blocklength)
+        for single_message in split_message:
+            hex_message = bits_to_hex(single_message)
+            encrypted_hex = self._key.encrypt(hex_message)
+            encrypted_message = encrypted_message + hex_to_bits(encrypted_hex, 64)
+
+        return encrypted_message
 
     def decrypt(self, message):
-        hex_message = bits_to_hex(message)
 
-        decrypted_hex = self._key.decrypt(hex_message)
+        split_message = [message[x:x + 64] for x in range(0, len(message), 64)]
+        decrypted_message = []
 
-        return hex_to_bits(decrypted_hex, self._blocklength)
+        for single_message in split_message:
+            hex_message = bits_to_hex(single_message)
+            decrypted_hex = self._key.decrypt(hex_message)
+            decrypted_message = decrypted_message + hex_to_bits(decrypted_hex, 64)
+
+        return decrypted_message

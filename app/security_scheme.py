@@ -90,6 +90,7 @@ class Scheme:
                 erased_index += 1
 
         encrypted_message = self._polarcodes.decode_output(erased_message)
+        encrypted_message = [int(i) for i in encrypted_message]
         decrypted_message = self._block_cipher.decrypt_message(encrypted_message)
 
         return decrypted_message

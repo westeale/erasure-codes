@@ -88,6 +88,9 @@ if __name__ == '__main__':
     assert message == decrypted_message
 
     # Simon cipher
+    message = np.random.uniform(size=64)
+    message = list(map(lambda x: int(round(x)), message))
+
     example = BlockCipher(BlockCipher.SIMON, 96, 64)
     simon_key = np.random.uniform(size=96)
     simon_key = list(map(lambda x: int(round(x)), simon_key))
@@ -100,15 +103,16 @@ if __name__ == '__main__':
     assert message == decrypted_message
 
     # Speck cipher
-    example = BlockCipher(BlockCipher.SPECK, 96, 64)
-    simon_key = np.random.uniform(size=96)
-    simon_key = list(map(lambda x: int(round(x)), simon_key))
+    example = BlockCipher(BlockCipher.SPECK, 96, 128)
+
 
     example.set_secret_key(simon_key)
 
+    message = np.random.uniform(size=128)
+    message = list(map(lambda x: int(round(x)), message))
+
     encrypted_message = example.encrypt_message(message)
     decrypted_message = example.decrypt_message(encrypted_message)
-
     assert message == decrypted_message
 
 

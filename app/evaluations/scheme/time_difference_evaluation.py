@@ -1,7 +1,7 @@
 """
 Evaluation of a Security Enhanced Encryption Scheme
 
-Comparision of execution time differences between DES and Scheme
+Comparision of execution time differences between Block cipher and Scheme
 with calculating a new key after each itaration
 
 """

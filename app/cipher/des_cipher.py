@@ -17,6 +17,7 @@ class DES:
             raise InvalidCipherBlockLength("Blocklength of DES should be multiplier of 64")
 
         self._key = None
+        self._blocklength = blocklength
 
     def set_key(self, key):
         string_key = bits_to_bytes(key)
@@ -28,14 +29,16 @@ class DES:
 
     def encrypt(self, message):
         byte_message = bits_to_bytes(message)
-
-        encrypted_bytes = self._key.encrypt(byte_message)
+        encrypted_bytes = None
+        for _ in range(round(self._blocklength / 64)):
+            encrypted_bytes = self._key.encrypt(byte_message)
         return bytes_to_bits(encrypted_bytes)
 
     def decrypt(self, message):
         byte_message = bits_to_bytes(message)
-
-        decrypted_bytes = self._key.decrypt(byte_message)
+        decrypted_bytes = None
+        for _ in range(round(self._blocklength / 64)):
+            decrypted_bytes = self._key.decrypt(byte_message)
 
         return bytes_to_bits(decrypted_bytes)
 
